@@ -1,0 +1,1 @@
+from app.cli.cli import CLIConsole
