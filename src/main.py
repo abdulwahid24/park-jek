@@ -1,3 +1,4 @@
+from app.config import ApplicationConfiguration
 
 if __name__ == '__main__':
-    print("Hello Earth")
+    config = ApplicationConfiguration()
