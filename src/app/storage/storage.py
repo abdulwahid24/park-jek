@@ -64,12 +64,15 @@ class BaseModel(metaclass=MultipleInheritanceNamedTupleMeta):
 
 
 class QuerySet:
+    def __init__(self, model, *args, **kwargs):
+        self._model = model
+
     def all(self):
         data = []
         with JsonStorageConnection(
-                db_filename=self.Meta.db_filename) as cursor:
+                db_filename=self._model.Meta.db_filename) as cursor:
             data = json.load(cursor.db_file)
-        return data
+        return [self._model(**record) for record in data]
 
     def search(self, query):
         pass

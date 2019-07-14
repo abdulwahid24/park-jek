@@ -11,8 +11,6 @@ class Vehicle(NamedTuple, BaseModel):
     created_at: str = str(datetime.now().timestamp())
     modified_at: str = str(datetime.now().timestamp())
 
-    objects = QuerySet()
-
     class Meta:
         db_filename = 'vehicle.json'
         unique_fields = ('registration_number', )
@@ -20,6 +18,10 @@ class Vehicle(NamedTuple, BaseModel):
     def __repr__(self):
         return '<Vehicle {0}, id={1}>'.format(self.registration_number,
                                               self.id)
+
+    @classmethod
+    def objects(cls):
+        return QuerySet(model=cls)
 
 
 class Slot(NamedTuple, BaseModel):

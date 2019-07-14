@@ -34,5 +34,12 @@
         "color": "White",
         "created_at": "1563136290.232919",
         "modified_at": "1563136290.232941"
+    },
+    {
+        "id": 7,
+        "registration_number": "MH-12-BT-2507",
+        "color": "Blue",
+        "created_at": "1563139374.9595",
+        "modified_at": "1563139374.959522"
     }
 ]
