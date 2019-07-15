@@ -41,6 +41,8 @@ class ParkingLotCommand(Singleton):
                 slot.save()
         except Exception as e:
             print(e)
+		else:
+			print("Created a parking lot with {} slots".format(slot_size))
 
     def _status(self):
         pass
