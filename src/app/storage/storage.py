@@ -44,6 +44,13 @@ class BaseModel(metaclass=MultipleInheritanceNamedTupleMeta):
                 except json.decoder.JSONDecodeError:
                     print('Failed to read db file.')
                 record = self._asdict()
+
+                # unpack Foreign keys
+                for key, value in record.items():
+                    if hasattr(value, '_asdict'):
+                        record[key] = value._asdict()
+
+                # Check existing record
                 for unique_field in self.Meta.unique_fields:
                     if list(
                             filter(
@@ -57,22 +64,72 @@ class BaseModel(metaclass=MultipleInheritanceNamedTupleMeta):
                 data.append(record)
                 cursor.db_file.seek(0)
                 json.dump(data, cursor.db_file, indent=4)
-                print('inserted record : {}'.format(data))
         except Exception as e:
             print(e)
             raise e
+
+    def get_or_create(self, *args, **kwargs):
+        try:
+            with JsonStorageConnection(
+                    db_filename=self.Meta.db_filename) as cursor:
+                try:
+                    cursor.db_file.seek(0)
+                    data = json.load(cursor.db_file)
+                except json.decoder.JSONDecodeError:
+                    print('Failed to read db file.')
+                record = self._asdict()
+
+                # Check existing record
+                existing_record = None
+                unique_fields = filter(lambda field: getattr(self, field),
+                                       self.Meta.unique_fields)
+                for unique_field in unique_fields:
+                    try:
+                        existing_record = list(
+                            filter(
+                                lambda x: x[unique_field] == record[unique_field],
+                                data))[0]
+                        if existing_record:
+                            return self._replace(**existing_record)
+                    except IndexError:
+                        existing_record = None
+
+                # Create new if no existing record
+                record['id'] = max(map(lambda x: x['id'],
+                                       data)) + 1 if data else 1
+                data.append(record)
+                cursor.db_file.seek(0)
+                json.dump(data, cursor.db_file, indent=4)
+                return self._replace(**record)
+        except Exception as e:
+            print(e)
 
 
 class QuerySet:
     def __init__(self, model, *args, **kwargs):
         self._model = model
 
-    def all(self):
-        data = []
+    def _all_records(self):
+        records = []
         with JsonStorageConnection(
                 db_filename=self._model.Meta.db_filename) as cursor:
             data = json.load(cursor.db_file)
-        return [self._model(**record) for record in data]
+        # unpack Foreign keys
+        for record in data:
+            for key, value in record.items():
+                if isinstance(value, dict):
+                    model = getattr(self._model, key)
+                    record[key] = model(**value)
+            records.append(self._model.__class__(**record))
+        return records
+
+    def all(self):
+        return self._all_records()
+
+    def first(self):
+        records = self._all_records()
+        if records:
+            return records[0]
 
     def search(self, query):
         pass

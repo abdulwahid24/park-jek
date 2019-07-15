@@ -16,30 +16,12 @@
     },
     {
         "id": 4,
-        "registration_number": "MH-12-BT-2504",
-        "color": "White",
-        "created_at": "1563135273.58627",
-        "modified_at": "1563135273.586293"
+        "registration_number": "mh-12-bt-2500",
+        "color": "white"
     },
     {
         "id": 5,
-        "registration_number": "MH-12-BT-2505",
-        "color": "White",
-        "created_at": "1563136245.049687",
-        "modified_at": "1563136245.049711"
-    },
-    {
-        "id": 6,
-        "registration_number": "MH-12-BT-2500",
-        "color": "White",
-        "created_at": "1563136290.232919",
-        "modified_at": "1563136290.232941"
-    },
-    {
-        "id": 7,
-        "registration_number": "MH-12-BT-2507",
-        "color": "Blue",
-        "created_at": "1563139374.9595",
-        "modified_at": "1563139374.959522"
+        "registration_number": "KA-01-HH-1234",
+        "color": "White"
     }
 ]

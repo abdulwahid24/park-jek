@@ -1,0 +1,28 @@
+[
+    {
+        "vehicle": {
+            "id": 19,
+            "registration_number": "mh-12-rf-1234",
+            "color": "blue"
+        },
+        "id": 1,
+        "slot": {
+            "id": 1
+        },
+        "parked_at": "1563191660.611624",
+        "leave_at": ""
+    },
+    {
+        "id": 2,
+        "vehicle": {
+            "id": 5,
+            "registration_number": "KA-01-HH-1234",
+            "color": "White"
+        },
+        "slot": {
+            "id": 2
+        },
+        "parked_at": 1563198395.983034,
+        "leave_at": ""
+    }
+]

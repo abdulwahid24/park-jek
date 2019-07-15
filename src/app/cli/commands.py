@@ -1,3 +1,4 @@
+from datetime import datetime
 from app.core import Singleton
 from app.storage.models import Vehicle, Slot, Parking
 from app.cli.exceptions import CommandNotFoundError
@@ -48,9 +49,23 @@ class ParkingLotCommand(Singleton):
         pass
 
     def _park(self, registration_number, color):
-        pass
+        vehicle = Vehicle(
+            id=0, registration_number=registration_number,
+            color=color).get_or_create()
+        slot = Slot.get_empty_slot()
+        if not slot:
+            print("Parking FULL !!!")
+            return
+        parking = Parking(
+            id=0,
+            vehicle=vehicle,
+            slot=slot,
+            parked_at=datetime.now().timestamp(),
+            leave_at='')
+        parking.save()
+        print("Allocated slot number: {}".format(slot.id))
 
-    def _leave(self):
+    def _leave(self, slot_number):
         pass
 
     def _registration_numbers_for_cars_with_colour(self):

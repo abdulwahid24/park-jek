@@ -5,11 +5,9 @@ from app.storage import QuerySet, BaseModel
 
 
 class Vehicle(NamedTuple, BaseModel):
-    id: int = 0
-    registration_number: str = 'MH-12-BT-0000'
-    color: str = 'No Color'
-    created_at: str = str(datetime.now().timestamp())
-    modified_at: str = str(datetime.now().timestamp())
+    id: int
+    registration_number: str
+    color: str
 
     class Meta:
         db_filename = 'vehicle.json'
@@ -18,44 +16,61 @@ class Vehicle(NamedTuple, BaseModel):
             'registration_number',
         )
 
-    def __repr__(self):
-        return '<Vehicle {0}, id={1}>'.format(self.registration_number,
-                                              self.id)
-
     @classmethod
     def objects(cls):
-        return QuerySet(model=cls)
+        return QuerySet(
+            model=cls(**{
+                id: 0,
+                registration_number: '',
+                color: ''
+            }))
 
 
 class Slot(NamedTuple, BaseModel):
-    id: int = 0
+    id: int
 
     class Meta:
         db_filename = 'slot.json'
         unique_fields = ('id', )
 
-    def __repr__(self):
-        return '<Slot {0}>'.format(self.id)
-
     @classmethod
     def objects(cls):
-        return QuerySet(model=cls)
+        return QuerySet(model=cls(**{'id': 0}))
+
+    @classmethod
+    def get_empty_slot(cls):
+        try:
+            parked_slots = {
+                parking.slot
+                for parking in Parking.objects().all()
+            }
+        except json.decoder.JSONDecodeError:
+            return cls.objects().first()
+        all_slots = set(cls.objects().all())
+        available_slots = list(all_slots - parked_slots)
+        if available_slots:
+            return min(available_slots)
 
 
 class Parking(NamedTuple, BaseModel):
     id: int
-    slot: Slot
     vehicle: Vehicle
-    parked_at: datetime
-    leave_at: datetime
+    slot: Slot
+    parked_at: str
+    leave_at: str
 
     class Meta:
         db_filename = 'parking.json'
-
-    def __repr__(self):
-        return '<Parking {0}, vehicle={1}, slot={2}>'.format(
-            self.id, self.vehicle.registration_number, self.slot.slot_number)
+        unique_fields = ('id', )
 
     @classmethod
     def objects(cls):
-        return QuerySet(model=cls)
+        return QuerySet(
+            model=cls(
+                **{
+                    'id': 0,
+                    'vehicle': Vehicle,
+                    'slot': Slot,
+                    'parked_at': '',
+                    'leave_at': ''
+                }))
