@@ -42,7 +42,7 @@ class BaseModel(metaclass=MultipleInheritanceNamedTupleMeta):
                     cursor.db_file.seek(0)
                     data = json.load(cursor.db_file)
                 except json.decoder.JSONDecodeError:
-                    print('Failed to read db file.')
+                    pass
                 record = self._asdict()
 
                 # unpack Foreign keys
@@ -77,7 +77,7 @@ class BaseModel(metaclass=MultipleInheritanceNamedTupleMeta):
                     cursor.db_file.seek(0)
                     data = json.load(cursor.db_file)
                 except json.decoder.JSONDecodeError:
-                    print('Failed to read db file.')
+                    pass
                 record = self._asdict()
 
                 # unpack Foreign keys
@@ -105,7 +105,7 @@ class BaseModel(metaclass=MultipleInheritanceNamedTupleMeta):
                     cursor.db_file.seek(0)
                     data = json.load(cursor.db_file)
                 except json.decoder.JSONDecodeError:
-                    print('Failed to read db file.')
+                    pass
                 record = self._asdict()
 
                 # Check existing record
@@ -181,6 +181,22 @@ class QuerySet:
             return list(filtered_records)[0]
         else:
             return None
+
+    def filter(self, **kwargs):
+        assert kwargs, "Required filter parameters"
+        filtered_records = set()
+        records = self._all_records()
+        for key, value in kwargs.items():
+            filtered_records = records if not filtered_records else filtered_records
+            key = key.split('__')
+            field, attribute = (key[0], key[1]) if len(key) > 1 else (key[0],
+                                                                      None)
+            if field and not attribute:
+                filtered_records = set(filter(lambda instance: hasattr(instance, field) and getattr(instance, field) == value, filtered_records))
+            elif field and attribute:
+                filtered_records = set(filter(lambda instance: hasattr(instance, field) and getattr(getattr(instance, field), attribute) == value, filtered_records))
+
+        return filtered_records
 
     def insert(self):
         pass

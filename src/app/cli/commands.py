@@ -38,7 +38,7 @@ class ParkingLotCommand(Singleton):
     def _create_parking_lot(self, slot_size):
         try:
             for _i in range(int(slot_size)):
-                slot = Slot()
+                slot = Slot(**{'id': 0, 'is_empty': True})
                 slot.save()
         except Exception as e:
             print(e)
@@ -57,6 +57,14 @@ class ParkingLotCommand(Singleton):
             if not slot:
                 print("Parking FULL !!!")
                 return
+
+            # Update slot status
+            slot = slot._asdict()
+            slot['is_empty'] = False
+            slot = Slot(**slot)
+            slot.update()
+
+            # add parking details
             parking = Parking(
                 id=0,
                 vehicle=vehicle,
@@ -64,6 +72,7 @@ class ParkingLotCommand(Singleton):
                 parked_at=datetime.now().timestamp(),
                 leave_at='')
             parking.save()
+
         except Exception as e:
             print(e)
         else:
@@ -72,13 +81,12 @@ class ParkingLotCommand(Singleton):
     def _leave(self, slot_number):
         try:
             parking = Parking.objects().get(
-                slot__id=int(slot_number), is_empty=False)
+                slot__id=int(slot_number), leave_at="")
             if not parking:
                 print("Slot number {} is already empty.".format(slot_number))
                 return
             parking = parking._asdict()
             parking['leave_at'] = datetime.now().timestamp()
-            parking['is_empty'] = True
             parking = Parking(**parking)
             parking.update()
         except Exception as e:

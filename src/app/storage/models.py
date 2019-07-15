@@ -28,6 +28,7 @@ class Vehicle(NamedTuple, BaseModel):
 
 class Slot(NamedTuple, BaseModel):
     id: int
+    is_empty: bool
 
     class Meta:
         db_filename = 'slot.json'
@@ -35,21 +36,14 @@ class Slot(NamedTuple, BaseModel):
 
     @classmethod
     def objects(cls):
-        return QuerySet(model=cls(**{'id': 0}))
+        return QuerySet(model=cls(**{'id': 0, 'is_empty': True}))
 
     @classmethod
     def get_empty_slot(cls):
-        try:
-            parked_slots = {
-                parking.slot
-                for parking in Parking.objects().all()
-            }
-        except json.decoder.JSONDecodeError:
-            return cls.objects().first()
-        all_slots = set(cls.objects().all())
-        available_slots = list(all_slots - parked_slots)
-        if available_slots:
-            return min(available_slots)
+        available_slots = set(cls.objects().filter(is_empty=True))
+        if not available_slots:
+            return None
+        return min(available_slots)
 
 
 class Parking(NamedTuple, BaseModel):
@@ -58,7 +52,6 @@ class Parking(NamedTuple, BaseModel):
     slot: Slot
     parked_at: str
     leave_at: str
-    is_empty: bool
 
     class Meta:
         db_filename = 'parking.json'
@@ -73,6 +66,5 @@ class Parking(NamedTuple, BaseModel):
                     'vehicle': Vehicle,
                     'slot': Slot,
                     'parked_at': '',
-                    'leave_at': '',
-                    'is_empty': True
+                    'leave_at': ''
                 }))

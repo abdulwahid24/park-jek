@@ -1,30 +1,58 @@
 [
     {
-        "vehicle": {
-            "id": 19,
-            "registration_number": "mh-12-rf-1234",
-            "color": "blue"
-        },
         "id": 1,
-        "slot": {
-            "id": 1
-        },
-        "parked_at": "1563191660.611624",
-        "leave_at": "",
-        "is_empty": false
-    },
-    {
-        "id": 2,
         "vehicle": {
             "id": 5,
             "registration_number": "KA-01-HH-1234",
             "color": "White"
         },
         "slot": {
-            "id": 2
+            "id": 1,
+            "is_empty": false
         },
-        "parked_at": 1563198395.983034,
-        "leave_at": 1563203169.632844,
-        "is_empty": true
+        "parked_at": 1563205319.608749,
+        "leave_at": ""
+    },
+    {
+        "id": 2,
+        "vehicle": {
+            "id": 6,
+            "registration_number": "KA-01-HH-9999",
+            "color": "White"
+        },
+        "slot": {
+            "id": 2,
+            "is_empty": false
+        },
+        "parked_at": 1563205326.334453,
+        "leave_at": ""
+    },
+    {
+        "id": 3,
+        "vehicle": {
+            "id": 7,
+            "registration_number": "KA-01-BB-0001",
+            "color": "Black"
+        },
+        "slot": {
+            "id": 3,
+            "is_empty": false
+        },
+        "parked_at": 1563205333.372503,
+        "leave_at": ""
+    },
+    {
+        "id": 4,
+        "vehicle": {
+            "id": 8,
+            "registration_number": "KA-01-HH-7777",
+            "color": "Red"
+        },
+        "slot": {
+            "id": 4,
+            "is_empty": false
+        },
+        "parked_at": 1563205338.986371,
+        "leave_at": ""
     }
 ]

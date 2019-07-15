@@ -28,5 +28,20 @@
         "id": 6,
         "registration_number": "KA-01-HH-9999",
         "color": "White"
+    },
+    {
+        "id": 7,
+        "registration_number": "KA-01-BB-0001",
+        "color": "Black"
+    },
+    {
+        "id": 8,
+        "registration_number": "KA-01-HH-7777",
+        "color": "Red"
+    },
+    {
+        "id": 9,
+        "registration_number": "KA-01-HH-2701",
+        "color": "Blue"
     }
 ]
