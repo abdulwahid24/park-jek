@@ -15,3 +15,15 @@
                 ~-.__|      /_ - ~ ^|      /- _      `..-'   
                      |     /        |     /     ~-.     `-. _  _  _
                      |_____|        |_____|         ~ - . _ _ _ _ _>
+
+ _______________________
+< Available commands >
+ -----------------------
+- create_parking_lot
+- status
+- park
+- leave
+- registration_numbers_for_cars_with_colour
+- slot_numbers_for_cars_with_colour
+- slot_number_for_registration_number
+- exit

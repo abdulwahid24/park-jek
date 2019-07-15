@@ -13,7 +13,10 @@ class Vehicle(NamedTuple, BaseModel):
 
     class Meta:
         db_filename = 'vehicle.json'
-        unique_fields = ('registration_number', )
+        unique_fields = (
+            'id',
+            'registration_number',
+        )
 
     def __repr__(self):
         return '<Vehicle {0}, id={1}>'.format(self.registration_number,
@@ -25,25 +28,34 @@ class Vehicle(NamedTuple, BaseModel):
 
 
 class Slot(NamedTuple, BaseModel):
-    slot_number: int
+    id: int = 0
 
-    class NamedTupleMeta:
-        filename = 'slot.json'
-        unique_fields = ('slot_number', )
+    class Meta:
+        db_filename = 'slot.json'
+        unique_fields = ('id', )
 
     def __repr__(self):
-        return '<Slot {0}, id={1}>'.format(self.slot_number, self.id)
+        return '<Slot {0}>'.format(self.id)
+
+    @classmethod
+    def objects(cls):
+        return QuerySet(model=cls)
 
 
 class Parking(NamedTuple, BaseModel):
+    id: int
     slot: Slot
     vehicle: Vehicle
     parked_at: datetime
     leave_at: datetime
 
-    class NamedTupleMeta:
-        filename = 'parking.json'
+    class Meta:
+        db_filename = 'parking.json'
 
     def __repr__(self):
         return '<Parking {0}, vehicle={1}, slot={2}>'.format(
             self.id, self.vehicle.registration_number, self.slot.slot_number)
+
+    @classmethod
+    def objects(cls):
+        return QuerySet(model=cls)
