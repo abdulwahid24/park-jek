@@ -49,24 +49,42 @@ class ParkingLotCommand(Singleton):
         pass
 
     def _park(self, registration_number, color):
-        vehicle = Vehicle(
-            id=0, registration_number=registration_number,
-            color=color).get_or_create()
-        slot = Slot.get_empty_slot()
-        if not slot:
-            print("Parking FULL !!!")
-            return
-        parking = Parking(
-            id=0,
-            vehicle=vehicle,
-            slot=slot,
-            parked_at=datetime.now().timestamp(),
-            leave_at='')
-        parking.save()
-        print("Allocated slot number: {}".format(slot.id))
+        try:
+            vehicle = Vehicle(
+                id=0, registration_number=registration_number,
+                color=color).get_or_create()
+            slot = Slot.get_empty_slot()
+            if not slot:
+                print("Parking FULL !!!")
+                return
+            parking = Parking(
+                id=0,
+                vehicle=vehicle,
+                slot=slot,
+                parked_at=datetime.now().timestamp(),
+                leave_at='')
+            parking.save()
+        except Exception as e:
+            print(e)
+        else:
+            print("Allocated slot number: {}".format(slot.id))
 
     def _leave(self, slot_number):
-        pass
+        try:
+            parking = Parking.objects().get(
+                slot__id=int(slot_number), is_empty=False)
+            if not parking:
+                print("Slot number {} is already empty.".format(slot_number))
+                return
+            parking = parking._asdict()
+            parking['leave_at'] = datetime.now().timestamp()
+            parking['is_empty'] = True
+            parking = Parking(**parking)
+            parking.update()
+        except Exception as e:
+            print(e)
+        else:
+            print("Slot number {} is free.".format(slot_number))
 
     def _registration_numbers_for_cars_with_colour(self):
         pass

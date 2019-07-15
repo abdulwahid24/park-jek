@@ -58,6 +58,7 @@ class Parking(NamedTuple, BaseModel):
     slot: Slot
     parked_at: str
     leave_at: str
+    is_empty: bool
 
     class Meta:
         db_filename = 'parking.json'
@@ -72,5 +73,6 @@ class Parking(NamedTuple, BaseModel):
                     'vehicle': Vehicle,
                     'slot': Slot,
                     'parked_at': '',
-                    'leave_at': ''
+                    'leave_at': '',
+                    'is_empty': True
                 }))

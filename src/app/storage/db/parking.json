@@ -10,7 +10,8 @@
             "id": 1
         },
         "parked_at": "1563191660.611624",
-        "leave_at": ""
+        "leave_at": "",
+        "is_empty": false
     },
     {
         "id": 2,
@@ -23,6 +24,7 @@
             "id": 2
         },
         "parked_at": 1563198395.983034,
-        "leave_at": ""
+        "leave_at": 1563203169.632844,
+        "is_empty": true
     }
 ]
