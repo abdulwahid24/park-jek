@@ -29,6 +29,7 @@ class Slot(NamedTuple, BaseModel):
 
     class NamedTupleMeta:
         filename = 'slot.json'
+        unique_fields = ('slot_number', )
 
     def __repr__(self):
         return '<Slot {0}, id={1}>'.format(self.slot_number, self.id)
