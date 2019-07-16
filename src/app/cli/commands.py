@@ -129,8 +129,18 @@ class ParkingLotCommand(Singleton):
         except Exception as e:
             print(e)
 
-    def _slot_numbers_for_cars_with_colour(self):
-        pass
+    def _slot_numbers_for_cars_with_colour(self, color):
+        try:
+            parkings = Parking.objects().filter(
+                vehicle__color=color.lower(), leave_at='')
+            if not parkings:
+                print("No slot numbers found for cars with color '{}'".format(
+                    color))
+                return
+            print("{}".format(", ".join(
+                [str(parking.slot.id) for parking in parkings])))
+        except Exception as e:
+            print(e)
 
     def _slot_number_for_registration_number(self):
         pass

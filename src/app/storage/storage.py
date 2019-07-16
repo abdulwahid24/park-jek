@@ -192,10 +192,9 @@ class QuerySet:
 
     def filter(self, **kwargs):
         assert kwargs, "Required filter parameters"
-        filtered_records = set()
         records = self._all_records()
+        filtered_records = records
         for key, value in kwargs.items():
-            filtered_records = records if not filtered_records else filtered_records
             key = key.split('__')
             field, attribute = (key[0], key[1]) if len(key) > 1 else (key[0],
                                                                       None)
