@@ -1,6 +1,7 @@
 import os
 import json
 from datetime import datetime
+from pathlib import Path
 from typing import NamedTuple, NamedTupleMeta
 from app.core import Singleton
 from app.storage.exceptions import IntegrityError
@@ -13,10 +14,10 @@ class JsonStorageConnection:
         self._db_filename = db_filename
 
     def __enter__(self):
-        self.db_file = open(
-            os.path.join(DB_PATH, self._db_filename),
-            mode='r+',
-            encoding='utf-8')
+        file_path = os.path.join(DB_PATH, self._db_filename)
+        filename = Path(file_path)
+        filename.touch(exist_ok=True)
+        self.db_file = open(file_path, mode='r+', encoding='utf-8')
         return self
 
     def __exit__(self, *args, **kwargs):
@@ -63,6 +64,7 @@ class BaseModel(metaclass=MultipleInheritanceNamedTupleMeta):
                                        data)) + 1 if data else 1
                 data.append(record)
                 cursor.db_file.seek(0)
+                cursor.db_file.truncate(0)
                 json.dump(data, cursor.db_file, indent=4)
         except Exception as e:
             print(e)
@@ -92,6 +94,7 @@ class BaseModel(metaclass=MultipleInheritanceNamedTupleMeta):
                 data.insert(existing_record_index, record)
 
                 cursor.db_file.seek(0)
+                cursor.db_file.truncate(0)
                 json.dump(data, cursor.db_file, indent=4)
         except Exception as e:
             print(e)
@@ -99,6 +102,7 @@ class BaseModel(metaclass=MultipleInheritanceNamedTupleMeta):
 
     def get_or_create(self, *args, **kwargs):
         try:
+            data = list()
             with JsonStorageConnection(
                     db_filename=self.Meta.db_filename) as cursor:
                 try:
@@ -128,6 +132,7 @@ class BaseModel(metaclass=MultipleInheritanceNamedTupleMeta):
                                        data)) + 1 if data else 1
                 data.append(record)
                 cursor.db_file.seek(0)
+                cursor.db_file.truncate(0)
                 json.dump(data, cursor.db_file, indent=4)
                 return self._replace(**record)
         except Exception as e:

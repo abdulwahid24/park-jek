@@ -54,8 +54,8 @@ class ParkingLotCommand(Singleton):
                     "{slot_number}\t\t{registration_number}\t\t{color}".format(
                         slot_number=parking.slot.id,
                         registration_number=parking.vehicle.
-                        registration_number,
-                        color=parking.vehicle.color))
+                        registration_number.upper(),
+                        color=parking.vehicle.color.title()))
         except Exception as e:
             print(e)
 
@@ -107,10 +107,7 @@ class ParkingLotCommand(Singleton):
             parking['leave_at'] = datetime.now().timestamp()
             parking = Parking(**parking)
             parking.update()
-
-            slot = parking.slot._asdict()
-            slot['is_empty'] = True
-            slot = Slot(**slot)
+            slot = Slot(**{'id': parking.slot.id, 'is_empty': True})
             slot.update()
         except Exception as e:
             print(e)
