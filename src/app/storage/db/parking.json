@@ -3,7 +3,7 @@
         "id": 1,
         "vehicle": {
             "id": 5,
-            "registration_number": "KA-01-HH-1234",
+            "registration_number": "ka-01-hh-1234",
             "color": "white"
         },
         "slot": {
@@ -17,7 +17,7 @@
         "id": 2,
         "vehicle": {
             "id": 6,
-            "registration_number": "KA-01-HH-9999",
+            "registration_number": "ka-01-hh-9999",
             "color": "white"
         },
         "slot": {
@@ -31,7 +31,7 @@
         "id": 3,
         "vehicle": {
             "id": 7,
-            "registration_number": "KA-01-BB-0001",
+            "registration_number": "ka-01-bb-0001",
             "color": "black"
         },
         "slot": {
@@ -45,7 +45,7 @@
         "id": 4,
         "vehicle": {
             "id": 8,
-            "registration_number": "KA-01-HH-7777",
+            "registration_number": "ka-01-hh-7777",
             "color": "red"
         },
         "slot": {
@@ -59,7 +59,7 @@
         "id": 5,
         "vehicle": {
             "id": 6,
-            "registration_number": "KA-01-HH-9999",
+            "registration_number": "ka-01-hh-9999",
             "color": "white"
         },
         "slot": {

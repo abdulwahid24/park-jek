@@ -73,7 +73,7 @@ class ParkingLotCommand(Singleton):
                 color=color.lower()).get_or_create()
             slot = Slot.get_empty_slot()
             if not slot:
-                print("Parking FULL !!!")
+                print("Sorry, parking lot is full")
                 return
 
             # Update slot status
@@ -142,5 +142,14 @@ class ParkingLotCommand(Singleton):
         except Exception as e:
             print(e)
 
-    def _slot_number_for_registration_number(self):
-        pass
+    def _slot_number_for_registration_number(self, registration_number):
+        try:
+            parking = Parking.objects().get(
+                vehicle__registration_number=registration_number.lower(),
+                leave_at='')
+            if not parking:
+                print("No Found")
+                return
+            print("{}".format(parking.slot.id))
+        except Exception as e:
+            print(e)
