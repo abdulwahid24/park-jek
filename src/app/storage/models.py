@@ -20,9 +20,9 @@ class Vehicle(NamedTuple, BaseModel):
     def objects(cls):
         return QuerySet(
             model=cls(**{
-                id: 0,
-                registration_number: '',
-                color: ''
+                'id': 0,
+                'registration_number': '',
+                'color': ''
             }))
 
 

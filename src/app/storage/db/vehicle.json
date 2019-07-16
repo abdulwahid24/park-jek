@@ -2,17 +2,17 @@
     {
         "id": 1,
         "registration_number": "MH-12-BT-2501",
-        "color": "White"
+        "color": "white"
     },
     {
         "id": 2,
         "registration_number": "MH-12-BT-2502",
-        "color": "White"
+        "color": "white"
     },
     {
         "id": 3,
         "registration_number": "MH-12-BT-2503",
-        "color": "White"
+        "color": "white"
     },
     {
         "id": 4,
@@ -22,26 +22,26 @@
     {
         "id": 5,
         "registration_number": "KA-01-HH-1234",
-        "color": "White"
+        "color": "white"
     },
     {
         "id": 6,
         "registration_number": "KA-01-HH-9999",
-        "color": "White"
+        "color": "white"
     },
     {
         "id": 7,
         "registration_number": "KA-01-BB-0001",
-        "color": "Black"
+        "color": "black"
     },
     {
         "id": 8,
         "registration_number": "KA-01-HH-7777",
-        "color": "Red"
+        "color": "red"
     },
     {
         "id": 9,
         "registration_number": "KA-01-HH-2701",
-        "color": "Blue"
+        "color": "blue"
     }
 ]

@@ -68,8 +68,9 @@ class ParkingLotCommand(Singleton):
                     parking.slot.id))
                 return
             vehicle = Vehicle(
-                id=0, registration_number=registration_number,
-                color=color).get_or_create()
+                id=0,
+                registration_number=registration_number.lower(),
+                color=color.lower()).get_or_create()
             slot = Slot.get_empty_slot()
             if not slot:
                 print("Parking FULL !!!")
@@ -116,8 +117,17 @@ class ParkingLotCommand(Singleton):
         else:
             print("Slot number {} is free.".format(slot_number))
 
-    def _registration_numbers_for_cars_with_colour(self):
-        pass
+    def _registration_numbers_for_cars_with_colour(self, color):
+        try:
+            vehicles = Vehicle.objects().filter(color=color.lower())
+            if not vehicles:
+                print("No vehicles found with color '{}'".format(color))
+                return
+            print("{}".format(", ".join([
+                vehicle.registration_number.upper() for vehicle in vehicles
+            ])))
+        except Exception as e:
+            print(e)
 
     def _slot_numbers_for_cars_with_colour(self):
         pass
