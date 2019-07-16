@@ -16,9 +16,9 @@
                      |     /        |     /     ~-.     `-. _  _  _
                      |_____|        |_____|         ~ - . _ _ _ _ _>
 
- _______________________
+_______________________
 < Available commands >
- -----------------------
+_______________________
 - create_parking_lot
 - status
 - park
@@ -27,3 +27,5 @@
 - slot_numbers_for_cars_with_colour
 - slot_number_for_registration_number
 - exit
+- help
+_______________________

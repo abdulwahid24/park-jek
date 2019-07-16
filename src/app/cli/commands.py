@@ -1,3 +1,4 @@
+import sys
 import re
 import logging
 from datetime import datetime
@@ -22,7 +23,11 @@ class ParkingLotCommand(Singleton):
             "slot_numbers_for_cars_with_colour":
             self._slot_numbers_for_cars_with_colour,
             "slot_number_for_registration_number":
-            self._slot_number_for_registration_number
+            self._slot_number_for_registration_number,
+            "help":
+            self._help,
+            "exit":
+            self._exit
         }
 
     def execute(self, command, *args, **kwargs):
@@ -38,6 +43,19 @@ class ParkingLotCommand(Singleton):
             )
         except TypeError as e:
             print(re.sub(r'_%s\(\)' % command, '%s command' % command, str(e)))
+
+    def _help(self):
+        commands_string = """
+_______________________
+< Available commands >
+_______________________
+- {}
+_______________________
+"""
+        print(commands_string.format('\n- '.join(self._commands.keys())))
+
+    def _exit(self):
+        sys.exit()
 
     def _create_parking_lot(self, slot_size):
         try:

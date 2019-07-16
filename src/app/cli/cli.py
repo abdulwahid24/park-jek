@@ -36,8 +36,6 @@ class CLIConsole(Singleton):
         while True:
             try:
                 self.std_input = input("park-a-lot> ")
-                if self.std_input == 'exit':
-                    sys.exit()
                 if self.std_input:
                     self._process_command(*self.std_input.split())
             except (KeyboardInterrupt, EOFError):
@@ -48,6 +46,5 @@ class CLIConsole(Singleton):
             command, arguments = args[0], args[1:]
             parking_lot_command = ParkingLotCommand()
             parking_lot_command.execute(command, *arguments)
-
         except Exception as e:
             logging.exception(e)
