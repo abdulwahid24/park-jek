@@ -68,3 +68,8 @@ class Parking(NamedTuple, BaseModel):
                     'parked_at': '',
                     'leave_at': ''
                 }))
+
+    @classmethod
+    def is_parking_exists(cls, registration_number):
+        return cls.objects().get(
+            vehicle__registration_number=registration_number, leave_at='')

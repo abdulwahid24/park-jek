@@ -140,9 +140,14 @@ class QuerySet:
 
     def _all_records(self):
         records = []
+        data = []
         with JsonStorageConnection(
                 db_filename=self._model.Meta.db_filename) as cursor:
-            data = json.load(cursor.db_file)
+            try:
+                cursor.db_file.seek(0)
+                data = json.load(cursor.db_file)
+            except json.decoder.JSONDecodeError:
+                pass
         # unpack Foreign keys
         for record in data:
             for key, value in record.items():
@@ -162,13 +167,16 @@ class QuerySet:
 
     def get(self, **kwargs):
         assert kwargs, "Required filter parameters"
-        filtered_records = set()
-        records = self._all_records()
+        filtered_records = records = self._all_records()
         for key, value in kwargs.items():
-            filtered_records = records if not filtered_records else filtered_records
             key = key.split('__')
             field, attribute = (key[0], key[1]) if len(key) > 1 else (key[0],
                                                                       None)
+            if field not in self._model._fields:
+                raise AttributeError(
+                    "Invalid field '{0}', available choices are: {1}".format(
+                        field, ', '.join(self._model._fields)))
+
             if field and not attribute:
                 filtered_records = set(filter(lambda instance: hasattr(instance, field) and getattr(instance, field) == value, filtered_records))
             elif field and attribute:
@@ -176,7 +184,7 @@ class QuerySet:
 
         if len(filtered_records) > 1:
             raise ValueError(
-                "Returning move then 1 value, use 'filter' method instead.")
+                "Returning more then 1 value, use 'filter' method instead.")
         elif len(filtered_records) == 1:
             return list(filtered_records)[0]
         else:
@@ -191,6 +199,11 @@ class QuerySet:
             key = key.split('__')
             field, attribute = (key[0], key[1]) if len(key) > 1 else (key[0],
                                                                       None)
+            if field not in self._model._fields:
+                raise AttributeError(
+                    "Invalid field '{0}', available choices are: {1}".format(
+                        field, ', '.join(self._model._fields)))
+
             if field and not attribute:
                 filtered_records = set(filter(lambda instance: hasattr(instance, field) and getattr(instance, field) == value, filtered_records))
             elif field and attribute:

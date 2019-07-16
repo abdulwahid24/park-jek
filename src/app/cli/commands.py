@@ -50,6 +50,12 @@ class ParkingLotCommand(Singleton):
 
     def _park(self, registration_number, color):
         try:
+            parking = Parking.is_parking_exists(
+                registration_number=registration_number)
+            if parking:
+                print('Vehicle already parked at slot {}'.format(
+                    parking.slot.id))
+                return
             vehicle = Vehicle(
                 id=0, registration_number=registration_number,
                 color=color).get_or_create()
@@ -89,6 +95,11 @@ class ParkingLotCommand(Singleton):
             parking['leave_at'] = datetime.now().timestamp()
             parking = Parking(**parking)
             parking.update()
+
+            slot = parking.slot._asdict()
+            slot['is_empty'] = True
+            slot = Slot(**slot)
+            slot.update()
         except Exception as e:
             print(e)
         else:

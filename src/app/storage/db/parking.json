@@ -25,7 +25,7 @@
             "is_empty": false
         },
         "parked_at": 1563205326.334453,
-        "leave_at": ""
+        "leave_at": 1563237752.241731
     },
     {
         "id": 3,
@@ -53,6 +53,20 @@
             "is_empty": false
         },
         "parked_at": 1563205338.986371,
+        "leave_at": 1563238231.090604
+    },
+    {
+        "id": 5,
+        "vehicle": {
+            "id": 6,
+            "registration_number": "KA-01-HH-9999",
+            "color": "White"
+        },
+        "slot": {
+            "id": 2,
+            "is_empty": false
+        },
+        "parked_at": 1563238160.768548,
         "leave_at": ""
     }
 ]
