@@ -46,7 +46,18 @@ class ParkingLotCommand(Singleton):
             print("Created a parking lot with {} slots".format(slot_size))
 
     def _status(self):
-        pass
+        try:
+            parkings = Parking.objects().filter(leave_at='')
+            print("Slot No.\tRegistration No\t\tColour")
+            for parking in parkings:
+                print(
+                    "{slot_number}\t\t{registration_number}\t\t{color}".format(
+                        slot_number=parking.slot.id,
+                        registration_number=parking.vehicle.
+                        registration_number,
+                        color=parking.vehicle.color))
+        except Exception as e:
+            print(e)
 
     def _park(self, registration_number, color):
         try:
