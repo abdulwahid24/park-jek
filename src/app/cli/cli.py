@@ -5,6 +5,7 @@ from app import BASE_DIR
 from app.core import Singleton
 from app.cli.commands import ParkingLotCommand
 from app.cli.exceptions import CommandNotFoundError
+from app.config import AppConfig
 
 CLI_BASE_PATH = os.path.join(BASE_DIR, os.path.dirname(__file__))
 
@@ -13,15 +14,15 @@ class CLIConsole(Singleton):
 
     std_input = ''
 
-    def __init__(self, config, *args, **kwargs):
-        if not os.path.exists(config.log_dir):
-            os.mkdir(config.log_dir)
+    def __init__(self, *args, **kwargs):
+        if not os.path.exists(AppConfig.log_dir):
+            os.mkdir(AppConfig.log_dir)
         logging.basicConfig(
-            filename=os.path.join(config.log_dir, config.log_filename),
+            filename=os.path.join(AppConfig.log_dir, AppConfig.log_filename),
             filemode='w',
             format='%(asctime)s %(message)s',
             datefmt='%m/%d/%Y %I:%M:%S %p',
-            level=eval(config.log_level))
+            level=eval(AppConfig.log_level))
 
     def __enter__(self, *args):
         with open(os.path.join(CLI_BASE_PATH, 'welcome.txt'),

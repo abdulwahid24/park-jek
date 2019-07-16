@@ -22,7 +22,7 @@ class ApplicationConfiguration(Singleton):
 
     def __init__(self, *args, **kwargs):
         self._initialize_arguments()
-        self._load_config_file()
+        self._load_config_file(**kwargs)
 
     def _initialize_arguments(self):
         self._argument_parser.add_argument(
@@ -43,15 +43,16 @@ class ApplicationConfiguration(Singleton):
             type=str,
             default=DEFAULT_EXECUTION_LEVEL)
 
-    def _load_config_file(self):
+    def _load_config_file(self,
+                          config_file=None,
+                          execution_level=DEFAULT_EXECUTION_LEVEL):
         config_parser = SafeConfigParser()
         args = self._argument_parser.parse_args()
+        if config_file:
+            args.config_file = config_file
         config_parser.read([args.config_file])
-        config_data = {
-            k: v
-            for k, v in config_parser[DEFAULT_EXECUTION_LEVEL].items()
-        }
-        if args.execution_level != DEFAULT_EXECUTION_LEVEL:
+        config_data = {k: v for k, v in config_parser[execution_level].items()}
+        if args.execution_level != execution_level:
             config_data.update(
                 {k: v
                  for k, v in config_parser[args.execution_level].items()})

@@ -6,8 +6,7 @@ from pathlib import Path
 from typing import NamedTuple, NamedTupleMeta
 from app.core import Singleton
 from app.storage.exceptions import IntegrityError
-
-DB_PATH = os.path.join(os.path.dirname(__file__), 'db')
+from app.config import AppConfig
 
 
 class JsonStorageConnection:
@@ -15,9 +14,9 @@ class JsonStorageConnection:
         self._db_filename = db_filename
 
     def __enter__(self):
-        file_path = os.path.join(DB_PATH, self._db_filename)
-        if not os.path.exists(DB_PATH):
-            os.makedirs(DB_PATH)
+        file_path = os.path.join(AppConfig.database_dir, self._db_filename)
+        if not os.path.exists(AppConfig.database_dir):
+            os.makedirs(AppConfig.database_dir)
         filename = Path(file_path)
         filename.touch(exist_ok=True)
         self.db_file = open(file_path, mode='r+', encoding='utf-8')
