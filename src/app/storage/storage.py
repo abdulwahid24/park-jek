@@ -15,6 +15,8 @@ class JsonStorageConnection:
 
     def __enter__(self):
         file_path = os.path.join(DB_PATH, self._db_filename)
+        if not os.path.exists(DB_PATH):
+            os.makedirs(DB_PATH)
         filename = Path(file_path)
         filename.touch(exist_ok=True)
         self.db_file = open(file_path, mode='r+', encoding='utf-8')
