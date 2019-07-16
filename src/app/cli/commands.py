@@ -131,8 +131,7 @@ class ParkingLotCommand(Singleton):
             parkings = Parking.objects().filter(
                 vehicle__color=color.lower(), leave_at='')
             if not parkings:
-                print("No slot numbers found for cars with color '{}'".format(
-                    color))
+                print("Not Found")
                 return
             print("{}".format(", ".join(
                 [str(parking.slot.id) for parking in parkings])))
