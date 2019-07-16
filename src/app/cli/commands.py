@@ -1,3 +1,5 @@
+import re
+import logging
 from datetime import datetime
 from app.core import Singleton
 from app.storage.models import Vehicle, Slot, Parking
@@ -31,9 +33,11 @@ class ParkingLotCommand(Singleton):
                     .format(command, ', '.join(self._commands.keys())))
             self._commands[command](*args, **kwargs)
         except CommandNotFoundError as e:
-            print(e)
-        except Exception as e:
-            print(e)
+            print(
+                "Command not found. Enter 'help' command to list available commands"
+            )
+        except TypeError as e:
+            print(re.sub(r'_%s\(\)' % command, '%s command' % command, str(e)))
 
     def _create_parking_lot(self, slot_size):
         try:
@@ -41,7 +45,7 @@ class ParkingLotCommand(Singleton):
                 slot = Slot(**{'id': 0, 'is_empty': True})
                 slot.save()
         except Exception as e:
-            print(e)
+            logging.exception(e)
         else:
             print("Created a parking lot with {} slots".format(slot_size))
 
@@ -57,7 +61,7 @@ class ParkingLotCommand(Singleton):
                         registration_number.upper(),
                         color=parking.vehicle.color.title()))
         except Exception as e:
-            print(e)
+            logging.exception(e)
 
     def _park(self, registration_number, color):
         try:
@@ -92,7 +96,7 @@ class ParkingLotCommand(Singleton):
             parking.save()
 
         except Exception as e:
-            print(e)
+            logging.exception(e)
         else:
             print("Allocated slot number: {}".format(slot.id))
 
@@ -110,7 +114,7 @@ class ParkingLotCommand(Singleton):
             slot = Slot(**{'id': parking.slot.id, 'is_empty': True})
             slot.update()
         except Exception as e:
-            print(e)
+            logging.exception(e)
         else:
             print("Slot number {} is free.".format(slot_number))
 
@@ -124,7 +128,7 @@ class ParkingLotCommand(Singleton):
                 vehicle.registration_number.upper() for vehicle in vehicles
             ])))
         except Exception as e:
-            print(e)
+            logging.exception(e)
 
     def _slot_numbers_for_cars_with_colour(self, color):
         try:
@@ -136,7 +140,7 @@ class ParkingLotCommand(Singleton):
             print("{}".format(", ".join(
                 [str(parking.slot.id) for parking in parkings])))
         except Exception as e:
-            print(e)
+            logging.exception(e)
 
     def _slot_number_for_registration_number(self, registration_number):
         try:
@@ -148,4 +152,4 @@ class ParkingLotCommand(Singleton):
                 return
             print("{}".format(parking.slot.id))
         except Exception as e:
-            print(e)
+            logging.exception(e)

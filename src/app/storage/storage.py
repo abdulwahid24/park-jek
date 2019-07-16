@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 from datetime import datetime
 from pathlib import Path
 from typing import NamedTuple, NamedTupleMeta
@@ -69,7 +70,7 @@ class BaseModel(metaclass=MultipleInheritanceNamedTupleMeta):
                 cursor.db_file.truncate(0)
                 json.dump(data, cursor.db_file, indent=4)
         except Exception as e:
-            print(e)
+            logging.exception(e)
             raise e
 
     def update(self, *args, **kwargs):
@@ -99,7 +100,7 @@ class BaseModel(metaclass=MultipleInheritanceNamedTupleMeta):
                 cursor.db_file.truncate(0)
                 json.dump(data, cursor.db_file, indent=4)
         except Exception as e:
-            print(e)
+            logging.exception(e)
             raise e
 
     def get_or_create(self, *args, **kwargs):
@@ -138,7 +139,7 @@ class BaseModel(metaclass=MultipleInheritanceNamedTupleMeta):
                 json.dump(data, cursor.db_file, indent=4)
                 return self._replace(**record)
         except Exception as e:
-            print(e)
+            logging.exception(e)
 
 
 class QuerySet:
