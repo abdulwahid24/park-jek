@@ -12,8 +12,9 @@ class TestParkingLotCommands(unittest.TestCase):
             config_file=TEST_CONFIG_FILE, execution_level='test')
         self.parking_lot_command = ParkingLotCommand()
 
-    # def tearDown(self):
-    #     shutil.rmtree(os.path.join(TEST_DIR, 'db'))
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(os.path.join(TEST_DIR, 'db'))
 
     def test_01_create_parking_lot(self):
         expected_result = "Created a parking lot with 1 slots"
