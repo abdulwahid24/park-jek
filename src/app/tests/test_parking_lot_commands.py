@@ -16,3 +16,8 @@ class TestParkingLotCommands(unittest.TestCase):
         actual_result = self.parking_lot_command.execute(
             'create_parking_lot', 2)
         self.assertEqual(expected_result, actual_result)
+
+    def test_status(self):
+        expected_result = 'Slot No.\tRegistration No\t\tColour\n'
+        actual_result = self.parking_lot_command.execute('status')
+        self.assertIn(expected_result, actual_result)
