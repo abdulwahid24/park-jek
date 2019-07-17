@@ -1,7 +1,7 @@
-class Singleton:
+class Singleton(object):
+    _instances = {}
+
     def __new__(cls, *args, **kwargs):
-        self = "__self__"
-        if not hasattr(cls, self):
-            instance = object.__new__(cls)
-            setattr(cls, self, instance)
-        return getattr(cls, self)
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__new__(cls)
+        return cls._instances[cls]
