@@ -4,9 +4,10 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from typing import NamedTuple, NamedTupleMeta
+from app import BASE_DIR
 from app.core import Singleton
 from app.storage.exceptions import IntegrityError
-from app.config import AppConfig
+from app.config import get_config
 
 
 class JsonStorageConnection:
@@ -14,7 +15,9 @@ class JsonStorageConnection:
         self._db_filename = db_filename
 
     def __enter__(self):
-        file_path = os.path.join(AppConfig.database_dir, self._db_filename)
+        AppConfig = get_config()
+        file_path = os.path.join(BASE_DIR, AppConfig.database_dir,
+                                 self._db_filename)
         if not os.path.exists(AppConfig.database_dir):
             os.makedirs(AppConfig.database_dir)
         filename = Path(file_path)

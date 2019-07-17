@@ -1,3 +1,1 @@
-from app.config.config import ApplicationConfiguration
-
-AppConfig = ApplicationConfiguration().config
+from app.config.config import get_config
