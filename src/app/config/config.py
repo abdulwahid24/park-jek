@@ -17,9 +17,14 @@ class ApplicationConfiguration(Singleton):
     config = None
 
     def __init__(self, *args, **kwargs):
-        if not self.config and not kwargs:
-            self._initialize_arguments()
-        self._load_config_file(**kwargs)
+        if not self.config:
+            if not kwargs:
+                sys_args = self._initialize_arguments()
+                kwargs.update({
+                    'config_file': sys_args.config_file,
+                    'execution_level': sys_args.execution_level
+                })
+            self._load_config_file(**kwargs)
 
     def _initialize_arguments(self):
         argument_parser = argparse.ArgumentParser(
@@ -43,11 +48,9 @@ class ApplicationConfiguration(Singleton):
             type=str,
             default=DEFAULT_EXECUTION_LEVEL)
 
-        self.args = argument_parser.parse_args()
+        return argument_parser.parse_args()
 
-    def _load_config_file(self, config_file=None, execution_level=None):
-        config_file = config_file if config_file else self.args.config_file
-        execution_level = execution_level if execution_level else self.args.execution_level
+    def _load_config_file(self, config_file, execution_level):
         config_parser = SafeConfigParser()
         config_parser.read([config_file])
         config_data = {
