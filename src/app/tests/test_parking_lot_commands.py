@@ -21,3 +21,9 @@ class TestParkingLotCommands(unittest.TestCase):
         expected_result = 'Slot No.\tRegistration No\t\tColour\n'
         actual_result = self.parking_lot_command.execute('status')
         self.assertIn(expected_result, actual_result)
+
+    def test_park(self):
+        expected_result = "Allocated slot number:"
+        actual_result = self.parking_lot_command.execute(
+            'park', 'mh-14-az-6658', 'white')
+        self.assertIn(expected_result, actual_result)
