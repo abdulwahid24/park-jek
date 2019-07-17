@@ -1,1 +1,1 @@
-from app.storage.storage import QuerySet, BaseModel
+from src.app.storage.storage import QuerySet, BaseModel

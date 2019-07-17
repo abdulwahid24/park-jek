@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 from typing import NamedTupleMeta, NamedTuple
-from app.storage import QuerySet, BaseModel
+from src.app.storage import QuerySet, BaseModel
 
 
 class Vehicle(NamedTuple, BaseModel):

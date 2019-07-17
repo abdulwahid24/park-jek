@@ -4,10 +4,10 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from typing import NamedTuple, NamedTupleMeta
-from app import BASE_DIR
-from app.core import Singleton
-from app.storage.exceptions import IntegrityError
-from app.config import get_config
+from src.app import BASE_DIR
+from src.app.core import Singleton
+from src.app.storage.exceptions import IntegrityError
+from src.app.config import get_config
 
 
 class JsonStorageConnection:
@@ -165,7 +165,7 @@ class QuerySet:
                     model = getattr(self._model, key)
                     record[key] = model(**value)
             records.append(self._model.__class__(**record))
-        return records
+        return sorted(records)
 
     def all(self):
         return self._all_records()
@@ -218,7 +218,7 @@ class QuerySet:
             elif field and attribute:
                 filtered_records = set(filter(lambda instance: hasattr(instance, field) and getattr(getattr(instance, field), attribute) == value, filtered_records))
 
-        return filtered_records
+        return sorted(filtered_records)
 
     def insert(self):
         pass
