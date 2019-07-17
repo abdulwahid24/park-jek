@@ -1,1 +1,1 @@
-from app.core.base import Singleton
+from src.app.core.base import Singleton
