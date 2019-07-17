@@ -49,6 +49,6 @@ class CLIConsole(Singleton):
         try:
             command, arguments = args[0], args[1:]
             parking_lot_command = ParkingLotCommand()
-            parking_lot_command.execute(command, *arguments)
+            print(parking_lot_command.execute(command, *arguments))
         except Exception as e:
             logging.exception(e)

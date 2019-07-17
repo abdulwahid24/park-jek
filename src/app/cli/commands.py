@@ -36,13 +36,14 @@ class ParkingLotCommand(Singleton):
                 raise CommandNotFoundError(
                     "CommandNotFoundError:command '{0}' not found. Available options are : {1}"
                     .format(command, ', '.join(self._commands.keys())))
-            self._commands[command](*args, **kwargs)
+            return self._commands[command](*args, **kwargs)
         except CommandNotFoundError as e:
-            print(
+            return (
                 "Command not found. Enter 'help' command to list available commands"
             )
         except TypeError as e:
-            print(re.sub(r'_%s\(\)' % command, '%s command' % command, str(e)))
+            return (re.sub(r'_%s\(\)' % command, '%s command' % command,
+                           str(e)))
 
     def _help(self):
         commands_string = """
@@ -52,7 +53,7 @@ _______________________
 - {}
 _______________________
 """
-        print(commands_string.format('\n- '.join(self._commands.keys())))
+        return (commands_string.format('\n- '.join(self._commands.keys())))
 
     def _exit(self):
         sys.exit()
@@ -65,19 +66,19 @@ _______________________
         except Exception as e:
             logging.exception(e)
         else:
-            print("Created a parking lot with {} slots".format(slot_size))
+            return ("Created a parking lot with {} slots".format(slot_size))
 
     def _status(self):
         try:
             parkings = Parking.objects().filter(leave_at='')
-            print("Slot No.\tRegistration No\t\tColour")
+            status_message = "Slot No.\tRegistration No\t\tColour\n"
             for parking in parkings:
-                print(
-                    "{slot_number}\t\t{registration_number}\t\t{color}".format(
-                        slot_number=parking.slot.id,
-                        registration_number=parking.vehicle.
-                        registration_number.upper(),
-                        color=parking.vehicle.color.title()))
+                status_message += "{slot_number}\t\t{registration_number}\t\t{color}\n".format(
+                    slot_number=parking.slot.id,
+                    registration_number=parking.vehicle.registration_number.
+                    upper(),
+                    color=parking.vehicle.color.title())
+            return status_message
         except Exception as e:
             logging.exception(e)
 
@@ -86,17 +87,15 @@ _______________________
             parking = Parking.is_parking_exists(
                 registration_number=registration_number)
             if parking:
-                print('Vehicle already parked at slot {}'.format(
+                return ('Vehicle already parked at slot {}'.format(
                     parking.slot.id))
-                return
             vehicle = Vehicle(
                 id=0,
                 registration_number=registration_number.lower(),
                 color=color.lower()).get_or_create()
             slot = Slot.get_empty_slot()
             if not slot:
-                print("Sorry, parking lot is full")
-                return
+                return ("Sorry, parking lot is full")
 
             # Update slot status
             slot = slot._asdict()
@@ -116,15 +115,14 @@ _______________________
         except Exception as e:
             logging.exception(e)
         else:
-            print("Allocated slot number: {}".format(slot.id))
+            return ("Allocated slot number: {}".format(slot.id))
 
     def _leave(self, slot_number):
         try:
             parking = Parking.objects().get(
                 slot__id=int(slot_number), leave_at="")
             if not parking:
-                print("Slot number {} is already empty.".format(slot_number))
-                return
+                return ("Slot number {} is already empty.".format(slot_number))
             parking = parking._asdict()
             parking['leave_at'] = datetime.now().timestamp()
             parking = Parking(**parking)
@@ -134,15 +132,14 @@ _______________________
         except Exception as e:
             logging.exception(e)
         else:
-            print("Slot number {} is free.".format(slot_number))
+            return ("Slot number {} is free.".format(slot_number))
 
     def _registration_numbers_for_cars_with_colour(self, color):
         try:
             vehicles = Vehicle.objects().filter(color=color.lower())
             if not vehicles:
-                print("No vehicles found with color '{}'".format(color))
-                return
-            print("{}".format(", ".join([
+                return ("Not Found")
+            return ("{}".format(", ".join([
                 vehicle.registration_number.upper() for vehicle in vehicles
             ])))
         except Exception as e:
@@ -153,9 +150,8 @@ _______________________
             parkings = Parking.objects().filter(
                 vehicle__color=color.lower(), leave_at='')
             if not parkings:
-                print("Not Found")
-                return
-            print("{}".format(", ".join(
+                return ("Not Found")
+            return ("{}".format(", ".join(
                 [str(parking.slot.id) for parking in parkings])))
         except Exception as e:
             logging.exception(e)
@@ -166,8 +162,7 @@ _______________________
                 vehicle__registration_number=registration_number.lower(),
                 leave_at='')
             if not parking:
-                print("No Found")
-                return
-            print("{}".format(parking.slot.id))
+                return ("No Found")
+            return ("{}".format(parking.slot.id))
         except Exception as e:
             logging.exception(e)
