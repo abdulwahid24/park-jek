@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 configparser = "*"
 pycodestyle = "*"
+setuptools = "*"
+wheel = "*"
 
 [requires]
 python_version = "3.6"

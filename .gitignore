@@ -5,3 +5,8 @@
 *.json
 
 **/*/log/
+
+dist/
+*.egg-info
+.rspec_status
+build/
