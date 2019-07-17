@@ -1,3 +1,4 @@
+#!/bin/bash
 # Add script to:
 # * Install dependencies
 # * Build/Compile
@@ -5,3 +6,5 @@
 #
 # After this is run, bin/parking_lot
 # should Just Work.
+
+python3 src/setup.py install
