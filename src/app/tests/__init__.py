@@ -1,3 +1,4 @@
 import os
 
-TEST_CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'config.ini')
+TEST_DIR = os.path.dirname(__file__)
+TEST_CONFIG_FILE = os.path.join(TEST_DIR, 'config.ini')

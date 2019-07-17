@@ -1,6 +1,7 @@
 import unittest
 import os
-from app.tests import TEST_CONFIG_FILE
+import shutil
+from app.tests import TEST_DIR, TEST_CONFIG_FILE
 from app.config.config import get_config
 from app.cli.commands import ParkingLotCommand
 
@@ -10,6 +11,9 @@ class TestParkingLotCommands(unittest.TestCase):
         self.AppConfig = get_config(
             config_file=TEST_CONFIG_FILE, execution_level='test')
         self.parking_lot_command = ParkingLotCommand()
+
+    # def tearDown(self):
+    #     shutil.rmtree(os.path.join(TEST_DIR, 'db'))
 
     def test_create_parking_lot(self):
         expected_result = "Created a parking lot with 2 slots"
