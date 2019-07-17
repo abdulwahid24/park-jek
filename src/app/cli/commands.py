@@ -132,7 +132,7 @@ _______________________
         except Exception as e:
             logging.exception(e)
         else:
-            return ("Slot number {} is free.".format(slot_number))
+            return ("Slot number {} is free".format(slot_number))
 
     def _registration_numbers_for_cars_with_colour(self, color):
         try:
