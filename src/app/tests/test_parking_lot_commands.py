@@ -49,3 +49,8 @@ class TestParkingLotCommands(unittest.TestCase):
         actual_result = self.parking_lot_command.execute(
             'slot_number_for_registration_number', 'mh-14-az-6658')
         self.assertIn(expected_result, actual_result)
+
+    def test_07_leave(self):
+        expected_result = "Slot number 1 is free"
+        actual_result = self.parking_lot_command.execute('leave', 1)
+        self.assertEqual(expected_result, actual_result)
