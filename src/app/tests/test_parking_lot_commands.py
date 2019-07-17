@@ -1,9 +1,9 @@
 import unittest
 import os
 import shutil
-from app.tests import TEST_DIR, TEST_CONFIG_FILE
-from app.config.config import get_config
-from app.cli.commands import ParkingLotCommand
+from src.app.tests import TEST_DIR, TEST_CONFIG_FILE
+from src.app.config.config import get_config
+from src.app.cli.commands import ParkingLotCommand
 
 
 class TestParkingLotCommands(unittest.TestCase):
