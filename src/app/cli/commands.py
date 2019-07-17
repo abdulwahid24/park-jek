@@ -2,9 +2,9 @@ import sys
 import re
 import logging
 from datetime import datetime
-from app.core import Singleton
-from app.storage.models import Vehicle, Slot, Parking
-from app.cli.exceptions import CommandNotFoundError
+from src.app.core import Singleton
+from src.app.storage.models import Vehicle, Slot, Parking
+from src.app.cli.exceptions import CommandNotFoundError
 
 
 class ParkingLotCommand(Singleton):
@@ -138,7 +138,7 @@ _______________________
         try:
             vehicles = Vehicle.objects().filter(color=color.lower())
             if not vehicles:
-                return ("Not Found")
+                return ("Not found")
             return ("{}".format(", ".join([
                 vehicle.registration_number.upper() for vehicle in vehicles
             ])))
@@ -150,7 +150,7 @@ _______________________
             parkings = Parking.objects().filter(
                 vehicle__color=color.lower(), leave_at='')
             if not parkings:
-                return ("Not Found")
+                return ("Not found")
             return ("{}".format(", ".join(
                 [str(parking.slot.id) for parking in parkings])))
         except Exception as e:
@@ -162,7 +162,7 @@ _______________________
                 vehicle__registration_number=registration_number.lower(),
                 leave_at='')
             if not parking:
-                return ("No Found")
+                return ("Not found")
             return ("{}".format(parking.slot.id))
         except Exception as e:
             logging.exception(e)

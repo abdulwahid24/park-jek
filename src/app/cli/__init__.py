@@ -1,1 +1,1 @@
-from app.cli.cli import CLIConsole
+from src.app.cli.cli import CLIConsole
