@@ -43,3 +43,9 @@ class TestParkingLotCommands(unittest.TestCase):
         actual_result = self.parking_lot_command.execute(
             'registration_numbers_for_cars_with_colour', 'white')
         self.assertIn(expected_result, actual_result)
+
+    def test_06_slot_number_for_registration_number(self):
+        expected_result = "1"
+        actual_result = self.parking_lot_command.execute(
+            'slot_number_for_registration_number', 'mh-14-az-6658')
+        self.assertIn(expected_result, actual_result)
