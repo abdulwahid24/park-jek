@@ -18,10 +18,10 @@ class ApplicationConfiguration(Singleton):
 
     def __init__(self, *args, **kwargs):
         if not self.config:
-            if not kwargs:
-                sys_args = self._initialize_arguments()
-                kwargs.update(sys_args._get_kwargs())
-            self._load_config_file(**kwargs)
+            sys_args = self._initialize_arguments()
+            sys_kwargs = dict(sys_args._get_kwargs())
+            sys_kwargs.update(kwargs)
+            self._load_config_file(**sys_kwargs)
 
     def _initialize_arguments(self):
         argument_parser = argparse.ArgumentParser(
