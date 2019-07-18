@@ -71,9 +71,9 @@ _______________________
     def _status(self):
         try:
             parkings = Parking.objects().filter(leave_at='')
-            status_message = "Slot No.\tRegistration No\t\tColour\n"
+            status_message = "Slot No.    Registration No    Colour"
             for parking in parkings:
-                status_message += "{slot_number}\t\t{registration_number}\t\t{color}\n".format(
+                status_message += "\n{slot_number}           {registration_number}      {color}".format(
                     slot_number=parking.slot.id,
                     registration_number=parking.vehicle.registration_number.
                     upper(),
