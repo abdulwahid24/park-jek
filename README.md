@@ -210,7 +210,7 @@ park-jek>
 ```
 
 ### Questions?
-Please reach out at abdulwahid24@gmail.com
+In case of any queries, please reach out to me via Github issues or comments.
 
 Thank you.
 
